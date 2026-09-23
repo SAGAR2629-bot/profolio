@@ -1,0 +1,112 @@
+.bootloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #05060a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  transition: opacity 0.5s ease;
+}
+
+.bootloader--fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bootloader__scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 255, 136, 0.04) 0,
+    rgba(0, 255, 136, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.bootloader__box {
+  max-width: 680px;
+  width: 100%;
+  background: #080c14 !important;
+  border-width: 2px !important;
+  padding: 28px !important;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 255, 136, 0.2);
+}
+
+.bootloader__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.bootloader__title {
+  font-family: var(--font-pixel-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--green);
+}
+
+.bootloader__terminal {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.72rem, 1.6vw, 0.86rem);
+  color: #00ff88;
+  min-height: 180px;
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.bootloader__line {
+  margin-bottom: 4px;
+  animation: boot-line-in 0.12s ease forwards;
+}
+
+@keyframes boot-line-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.bootloader__prefix {
+  color: #008844;
+}
+
+.bootloader__cursor {
+  display: inline-block;
+  animation: blink-cursor 0.5s step-end infinite;
+  color: #00ff88;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.bootloader__progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-pixel-display);
+  font-size: 0.72rem;
+  color: var(--green);
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 255, 136, 0.2);
+  letter-spacing: 0.1em;
+}
+
+.bootloader__bar {
+  letter-spacing: 0.05em;
+}

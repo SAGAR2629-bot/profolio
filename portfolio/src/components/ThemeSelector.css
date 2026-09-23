@@ -1,0 +1,232 @@
+/* ============================================================
+   RETRO THEME CONTROL — ACCURATE TO REFERENCE MOCKUP
+   Physical hardware dial + [ ☼ THEME ▼ ] button + popover
+   ============================================================ */
+
+.retro-theme-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 1000;
+}
+
+/* Hardware Dial Button [ ☌ ] */
+.retro-theme-dial-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--surface);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px var(--ink);
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 1rem;
+  transition: var(--transition-tactile);
+  user-select: none;
+}
+
+.retro-theme-dial-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink);
+  background: #FFFFFF;
+}
+
+.retro-theme-dial-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+/* Main Theme Button [ ☼ THEME ▼ ] */
+.retro-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  box-shadow: 2px 2px 0px var(--ink);
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition-tactile);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.retro-theme-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink);
+  background: #FFFFFF;
+}
+
+.retro-theme-btn:active,
+.retro-theme-btn.is-open {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--ink);
+  background: var(--surface-alt);
+}
+
+.retro-theme-btn__icon {
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.retro-theme-btn__text {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.retro-theme-btn__arrow {
+  font-size: 0.55rem;
+  color: var(--ink);
+  margin-left: 1px;
+}
+
+/* ============================================================
+   POPOVER DROPDOWN MENU — EXACT TO REFERENCE IMAGE
+   ============================================================ */
+
+.retro-theme-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 285px;
+  background: var(--surface);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0px var(--ink);
+  z-index: 1050;
+  padding: 12px 14px 14px;
+  animation: retro-popover-in 0.12s ease-out;
+}
+
+@keyframes retro-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.retro-theme-menu__header {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1.5px dashed rgba(23, 25, 28, 0.2);
+}
+
+.retro-theme-menu__title {
+  font-family: var(--font-pixel);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.retro-theme-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Individual Theme Option in Menu */
+.retro-theme-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: var(--transition-tactile);
+  text-align: left;
+  user-select: none;
+  width: 100%;
+}
+
+.retro-theme-option:hover {
+  background: var(--surface-alt);
+  border-color: rgba(23, 25, 28, 0.15);
+  transform: translateX(1px);
+}
+
+.retro-theme-option.is-selected {
+  background: var(--surface-alt);
+  border: 1px solid var(--ink);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+.retro-theme-option__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.retro-theme-option__radio {
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.retro-theme-option.is-selected .retro-theme-option__radio {
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+.retro-theme-option__name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 5-Swatch Horizontal Color Bar */
+.retro-theme-option__swatches {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 68px;
+  height: 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 1px 1px 0px rgba(23, 25, 28, 0.25);
+}
+
+.retro-theme-option__swatch {
+  height: 100%;
+  border-right: 1px solid rgba(23, 25, 28, 0.25);
+  display: block;
+}
+
+.retro-theme-option__swatch:last-child {
+  border-right: none;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 600px) {
+  .retro-theme-menu {
+    right: -20px;
+    width: 260px;
+  }
+}

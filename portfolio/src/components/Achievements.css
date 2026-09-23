@@ -1,0 +1,245 @@
+/* ============================================================
+   MISSION LOGS / ACHIEVEMENTS — RETRO ARCHIVE SYSTEM
+   Spacious, robust responsive layout with physical mission cards
+   ============================================================ */
+
+.mission-log {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mission-log__header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: var(--bg-secondary);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-xl);
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mission-log__spine {
+  position: absolute;
+  top: 60px;
+  bottom: 24px;
+  left: 48px;
+  width: 3px;
+  background: var(--ink);
+  z-index: 1;
+}
+
+.mission-log__entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+/* Individual Mission Entry: 2 Columns on Desktop (Marker + Full Card) */
+.mission-entry {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Timeline Left Marker Column */
+.mission-entry__marker-col,
+.mission-entry__stamp-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 14px;
+}
+
+.mission-entry__year-stamp {
+  font-family: var(--font-pixel);
+  font-size: 0.78125rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: var(--retro-orange);
+  padding: 4px 10px;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  z-index: 3;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.mission-entry__bullet {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--retro-yellow);
+  border: 2px solid var(--ink);
+  box-shadow: 1.5px 1.5px 0px var(--ink);
+  margin-top: 10px;
+  z-index: 3;
+}
+
+/* Right Column: Spacious Physical Mission Card */
+.mission-entry__card {
+  width: 100%;
+  min-width: 0; /* Prevents flex/grid children from overflowing */
+  background: var(--bg-paper);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-tactile);
+  border-left: 6px solid var(--retro-orange);
+}
+
+.mission-entry__card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.mission-entry__meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: var(--border-dashed);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mission-entry__tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mission-entry__status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--retro-green);
+}
+
+.mission-entry__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--retro-green);
+  border: 1px solid var(--ink);
+  box-shadow: 0 0 3px var(--retro-green);
+}
+
+.mission-entry__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: var(--space-sm);
+}
+
+.mission-entry__badge {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.mission-entry__title {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.mission-entry__desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+  margin-bottom: var(--space-lg);
+  word-break: normal;
+}
+
+.mission-entry__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  border-top: var(--border-thick);
+  background: var(--bg-paper-tint);
+  margin: 0 calc(-1 * var(--space-xl)) calc(-1 * var(--space-xl));
+  padding: 12px var(--space-xl);
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.mission-entry__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.mission-entry__verified-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--retro-blue);
+  border: 1px solid var(--ink);
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 768px) {
+  .mission-log__spine {
+    display: none;
+  }
+
+  .mission-entry {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .mission-entry__marker-col,
+  .mission-entry__stamp-box {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 0;
+    margin-bottom: 2px;
+  }
+
+  .mission-entry__bullet {
+    display: none;
+  }
+
+  .mission-entry__card {
+    padding: var(--space-lg);
+  }
+
+  .mission-entry__footer {
+    margin: 0 calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg));
+    padding: 10px var(--space-lg);
+  }
+}

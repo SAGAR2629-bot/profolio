@@ -1,0 +1,710 @@
+/* ============================================================
+   RETRO INTERACTIVE ENGINEERING ARCHIVE — DESIGN SYSTEM
+   Inspired by tactile physical instruments, 16-bit consoles,
+   and handcrafted technical engineering interfaces.
+   ============================================================ */
+
+:root,
+[data-theme="warm-archive"] {
+  /* THEME 01 — WARM ARCHIVE (Default Light Theme) */
+  --bg-primary: #F4F0E6;       /* Warm hardware casing / parchment */
+  --bg-secondary: #EAE4D5;     /* Inner console bezel / control decks */
+  --surface: #FDFBF7;          /* Crisp technical paper / screen interior */
+  --surface-raised: #FFFFFF;   /* Raised card highlight */
+  --surface-alt: #F7F3E9;      /* Highlighted paper / row background */
+
+  --ink: #17191C;              /* Heavy mechanical ink */
+  --ink-secondary: #3D444C;    /* High-contrast readable body text */
+  --ink-muted: #6E7781;        /* Technical labels & subtle markers */
+
+  --border: #17191C;
+  --shadow: #17191C;
+
+  --accent-primary: #1677C8;   /* Retro blue */
+  --accent-secondary: #20B9D6; /* Retro cyan */
+  --accent-highlight: #F5C542; /* Retro yellow */
+  --accent-success: #38A85A;   /* Retro green */
+  --accent-warning: #F28C28;   /* Retro orange */
+  --accent-danger: #E5483F;    /* Retro red */
+
+  --technical-line: rgba(90, 80, 65, 0.15);
+  --technical-node: rgba(180, 110, 30, 0.45);
+  --grid-color: var(--technical-line);
+  --shadow-color: var(--shadow);
+
+  /* Derived & Legacy Component Bindings */
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(23, 25, 28, 0.35);
+
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+  --shadow-inset: inset 2px 2px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px rgba(23, 25, 28, 0.15);
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+  --font-pixel: 'Pixelify Sans', 'Space Mono', monospace;
+
+  /* Layout & Spacing */
+  --chassis-max-width: 1220px;
+  --nav-height: 68px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+
+  --transition-tactile: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease;
+}
+
+/* THEME 02 — BLUEPRINT (Light blue engineering-paper atmosphere) */
+[data-theme="blueprint"] {
+  --bg-primary: #EAF4F7;
+  --bg-secondary: #D8EAF0;
+  --surface: #F8FCFD;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #E2EFF4;
+
+  --ink: #14222D;
+  --ink-secondary: #2C3E4D;
+  --ink-muted: #577082;
+
+  --border: #14222D;
+  --shadow: #14222D;
+
+  --accent-primary: #0E6EB8;
+  --accent-secondary: #0EA5C6;
+  --accent-highlight: #F0B429;
+  --accent-success: #1B9A59;
+  --accent-warning: #E06D1E;
+  --accent-danger: #D93638;
+
+  --technical-line: rgba(14, 110, 184, 0.18);
+  --technical-node: rgba(14, 165, 198, 0.5);
+
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(20, 34, 45, 0.35);
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+}
+
+/* THEME 03 — MINT LAB (Pale green laboratory-paper atmosphere) */
+[data-theme="mint-lab"] {
+  --bg-primary: #EEF5E9;
+  --bg-secondary: #DDEBD8;
+  --surface: #FBFDF9;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #E5F2DF;
+
+  --ink: #172319;
+  --ink-secondary: #304233;
+  --ink-muted: #5F7864;
+
+  --border: #172319;
+  --shadow: #172319;
+
+  --accent-primary: #258342;
+  --accent-secondary: #0F9B93;
+  --accent-highlight: #D8A416;
+  --accent-success: #289945;
+  --accent-warning: #DE751F;
+  --accent-danger: #D93838;
+
+  --technical-line: rgba(37, 131, 66, 0.18);
+  --technical-node: rgba(15, 155, 147, 0.5);
+
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(23, 35, 25, 0.35);
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+}
+
+/* THEME 04 — SUNSET ENGINEERING (Warm peach/orange paper atmosphere) */
+[data-theme="sunset-eng"] {
+  --bg-primary: #FFF0DF;
+  --bg-secondary: #F7DEC5;
+  --surface: #FFF9F1;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #FBE8D3;
+
+  --ink: #291811;
+  --ink-secondary: #4A3125;
+  --ink-muted: #806354;
+
+  --border: #291811;
+  --shadow: #291811;
+
+  --accent-primary: #D95B16;
+  --accent-secondary: #C43621;
+  --accent-highlight: #E5A817;
+  --accent-success: #359B51;
+  --accent-warning: #E67417;
+  --accent-danger: #D92B2B;
+
+  --technical-line: rgba(217, 91, 22, 0.18);
+  --technical-node: rgba(229, 168, 23, 0.5);
+
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(41, 24, 17, 0.35);
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+}
+
+/* THEME 05 — LAVENDER TECH (Restrained pale lavender technical-paper atmosphere) */
+[data-theme="lavender-tech"] {
+  --bg-primary: #F0EDF7;
+  --bg-secondary: #E1DDF0;
+  --surface: #FBFAFE;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #EAE4F7;
+
+  --ink: #1D172A;
+  --ink-secondary: #3B334D;
+  --ink-muted: #6B6182;
+
+  --border: #1D172A;
+  --shadow: #1D172A;
+
+  --accent-primary: #6E44BA;
+  --accent-secondary: #247AC9;
+  --accent-highlight: #E0A812;
+  --accent-success: #2EA056;
+  --accent-warning: #E37722;
+  --accent-danger: #D93648;
+
+  --technical-line: rgba(110, 68, 186, 0.18);
+  --technical-node: rgba(36, 122, 201, 0.5);
+
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(29, 23, 42, 0.35);
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+}
+
+/* THEME 06 — COOL SLATE (Light industrial gray/blue atmosphere) */
+[data-theme="cool-slate"] {
+  --bg-primary: #E9EEF0;
+  --bg-secondary: #DCE4E7;
+  --surface: #F8FAFA;
+  --surface-raised: #FFFFFF;
+  --surface-alt: #E1E9EC;
+
+  --ink: #162025;
+  --ink-secondary: #2F3C42;
+  --ink-muted: #5E6F78;
+
+  --border: #162025;
+  --shadow: #162025;
+
+  --accent-primary: #1F6E8C;
+  --accent-secondary: #0E94A0;
+  --accent-highlight: #E09F1B;
+  --accent-success: #289E58;
+  --accent-warning: #DE6C18;
+  --accent-danger: #D43939;
+
+  --technical-line: rgba(31, 110, 140, 0.18);
+  --technical-node: rgba(14, 148, 160, 0.5);
+
+  --bg-paper: var(--surface);
+  --bg-paper-tint: var(--surface-alt);
+  --retro-blue: var(--accent-primary);
+  --retro-cyan: var(--accent-secondary);
+  --retro-yellow: var(--accent-highlight);
+  --retro-green: var(--accent-success);
+  --retro-orange: var(--accent-warning);
+  --retro-red: var(--accent-danger);
+  --border-thick: 2.5px solid var(--border);
+  --border-thin: 1.5px solid var(--border);
+  --border-dashed: 2px dashed rgba(22, 32, 37, 0.35);
+  --shadow-sm: 2px 2px 0px var(--shadow);
+  --shadow-md: 3.5px 3.5px 0px var(--shadow);
+  --shadow-lg: 5px 5px 0px var(--shadow);
+}
+
+/* Base Reset & Body */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Custom Mechanical Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-left: var(--border-thin);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 1px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--retro-blue);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--chassis-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+/* ============================================================
+   PAGE AS CONSOLE OBJECT — HARDWARE CHASSIS FRAMING
+   ============================================================ */
+
+.console-outer {
+  position: relative;
+  z-index: 1;
+  max-width: 1260px;
+  margin: 16px auto 32px;
+  background: var(--bg-secondary);
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  box-shadow: 6px 6px 0px var(--ink);
+  overflow: hidden;
+}
+
+/* Console Header Bar (Top Hardware Plate) */
+.console-plate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: var(--bg-primary);
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-bottom: var(--border-thick);
+}
+
+.console-plate__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.console-screw {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #A0A8B0;
+  border: 1px solid var(--ink);
+  display: inline-block;
+  position: relative;
+}
+
+.console-screw::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 6px;
+  height: 1px;
+  background: #3A4048;
+}
+
+.console-plate__title {
+  color: #FDFBF7;
+  font-weight: 700;
+}
+
+.console-plate__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--retro-yellow);
+}
+
+.console-led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--retro-green);
+  display: inline-block;
+  box-shadow: 0 0 4px var(--retro-green);
+}
+
+.console-arcade-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 2px;
+}
+
+.console-arcade-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  display: inline-block;
+}
+
+.console-arcade-dot--red { background: #E5483F; }
+.console-arcade-dot--yellow { background: #F5C542; }
+.console-arcade-dot--green { background: #38A85A; }
+
+/* Screen / Paper Inner Surface */
+.console-screen {
+  background: var(--bg-primary);
+  padding: 0;
+  position: relative;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+h1, h2, h3, h4 {
+  color: var(--ink);
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+p {
+  color: var(--ink-secondary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* Section Header Structure */
+.section {
+  padding: var(--space-3xl) 0;
+  border-bottom: var(--border-thick);
+  position: relative;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section-header {
+  margin-bottom: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: var(--retro-yellow);
+  color: var(--ink);
+  border: var(--border-thin);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+  color: var(--ink);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  max-width: 650px;
+}
+
+/* ============================================================
+   PHYSICAL RETRO UI PRIMITIVES
+   ============================================================ */
+
+/* Chunky Push-Buttons */
+.retro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--bg-paper);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: var(--transition-tactile);
+  user-select: none;
+}
+
+.retro-btn:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
+}
+
+.retro-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+/* Button Color Accents */
+.retro-btn--blue {
+  background: var(--retro-blue);
+  color: #FFFFFF;
+}
+.retro-btn--blue:hover {
+  background: #1986e0;
+  color: #FFFFFF;
+}
+
+.retro-btn--yellow {
+  background: var(--retro-yellow);
+  color: var(--ink);
+}
+.retro-btn--yellow:hover {
+  background: #fad25a;
+}
+
+.retro-btn--orange {
+  background: var(--retro-orange);
+  color: #FFFFFF;
+}
+.retro-btn--orange:hover {
+  background: #f79d45;
+  color: #FFFFFF;
+}
+
+.retro-btn--green {
+  background: var(--retro-green);
+  color: #FFFFFF;
+}
+.retro-btn--green:hover {
+  background: #42b767;
+  color: #FFFFFF;
+}
+
+.retro-btn--cyan {
+  background: var(--retro-cyan);
+  color: var(--ink);
+}
+.retro-btn--cyan:hover {
+  background: #3acae5;
+}
+
+.retro-btn--sm {
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  box-shadow: var(--shadow-sm);
+}
+.retro-btn--sm:hover {
+  box-shadow: var(--shadow-md);
+}
+.retro-btn--sm:active {
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+/* Framed Retro Panel / Dossier Box */
+.retro-panel {
+  background: var(--bg-paper);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  transition: var(--transition-tactile);
+}
+
+.retro-panel:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.retro-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border-bottom: var(--border-thick);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.retro-panel__tag {
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.retro-panel__dots {
+  display: flex;
+  gap: 5px;
+}
+
+.retro-panel__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+}
+.retro-panel__dot--red { background: var(--retro-red); }
+.retro-panel__dot--yellow { background: var(--retro-yellow); }
+.retro-panel__dot--green { background: var(--retro-green); }
+
+/* Stamped Tech Tags */
+.retro-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  background: var(--bg-secondary);
+  color: var(--ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+.retro-tag--cyan { background: rgba(32, 185, 214, 0.15); border-color: var(--ink); }
+.retro-tag--yellow { background: rgba(245, 197, 66, 0.2); border-color: var(--ink); }
+.retro-tag--orange { background: rgba(242, 140, 40, 0.18); border-color: var(--ink); }
+.retro-tag--green { background: rgba(56, 168, 90, 0.18); border-color: var(--ink); }
+.retro-tag--blue { background: rgba(22, 119, 200, 0.15); border-color: var(--ink); }
+
+/* Scroll Reveal Hook Utility */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .console-outer {
+    margin: 8px;
+    border-radius: var(--radius-sm);
+    box-shadow: 4px 4px 0px var(--ink);
+  }
+
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+}

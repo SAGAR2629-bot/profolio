@@ -1,0 +1,605 @@
+/* ===================================================
+   PROJECT CASE STUDY DOSSIER STYLES
+   Retro Engineering Archive Dossier Aesthetic
+   =================================================== */
+
+.project-dossier {
+  background: var(--bg-paper);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-3xl);
+  border-left: 8px solid var(--retro-blue);
+  animation: dossierFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dossierFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-dossier--modal {
+  margin-bottom: 0;
+  border-radius: var(--radius-sm);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Header & Identity Tape */
+.project-dossier__header {
+  background: var(--bg-secondary);
+  border-bottom: var(--border-thick);
+}
+
+.project-dossier__tape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: #EAE6DF;
+  border-bottom: 1.5px dashed rgba(23, 25, 28, 0.25);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+[data-theme='dark'] .project-dossier__tape,
+[data-theme='cyber-matrix'] .project-dossier__tape,
+[data-theme='blueprint'] .project-dossier__tape {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.project-dossier__id-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.project-dossier__status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--retro-green);
+  border: 1px solid var(--ink);
+  box-shadow: 0 0 5px var(--retro-green);
+}
+
+.project-dossier__badge {
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.project-dossier__featured-tag {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--retro-yellow);
+  color: var(--ink);
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+}
+
+.project-dossier__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-dossier__status-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.project-dossier__title-banner {
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+}
+
+.project-dossier__meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-md);
+}
+
+.project-dossier__title {
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: var(--space-lg);
+  letter-spacing: -0.01em;
+}
+
+.project-dossier__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Dossier Body & Modular Sections */
+.project-dossier__body {
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.dossier-section {
+  padding-bottom: var(--space-xl);
+  border-bottom: var(--border-dashed);
+}
+
+.dossier-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dossier-section__header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.dossier-section__num {
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--retro-blue);
+}
+
+.dossier-section__title {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dossier-section__meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  margin-left: auto;
+}
+
+.dossier-text-block p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink-secondary);
+  margin: 0;
+  white-space: pre-line;
+}
+
+.dossier-text-block--arch {
+  background: var(--bg-secondary);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Problem Callout Box */
+.dossier-callout--problem {
+  background: #FFF8E7;
+  border: 2px solid var(--ink);
+  border-left: 6px solid var(--retro-yellow);
+  padding: var(--space-lg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='dark'] .dossier-callout--problem,
+[data-theme='blueprint'] .dossier-callout--problem {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.dossier-callout__marker {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.dossier-callout--problem p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Tech Chips Grid */
+.dossier-tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dossier-tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px var(--ink);
+  transition: var(--transition-tactile);
+}
+
+.dossier-tech-chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--ink);
+}
+
+.dossier-tech-chip__led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--retro-yellow);
+  border: 1px solid var(--ink);
+}
+
+.dossier-tech-chip__name {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Metrics & Telemetry Grid */
+.dossier-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.dossier-metric-card {
+  background: var(--bg-secondary);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dossier-metric-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.dossier-metric-card__idx {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.dossier-metric-card__led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--retro-green);
+  border: 1px solid var(--ink);
+}
+
+.dossier-metric-card__val {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--retro-blue);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.dossier-metric-card__label {
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.dossier-metric-card__desc {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--ink-secondary);
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(23, 25, 28, 0.15);
+}
+
+/* Challenges & Solutions Ledger */
+.dossier-challenges-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.dossier-challenge-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: var(--space-md);
+  background: var(--bg-secondary);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.dossier-challenge-box,
+.dossier-solution-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.dossier-challenge-tag {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #B91C1C;
+  background: #FEE2E2;
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-bottom: 6px;
+}
+
+.dossier-solution-tag {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #047857;
+  background: #D1FAE5;
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-bottom: 6px;
+}
+
+.dossier-challenge-content,
+.dossier-solution-content {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+
+.dossier-challenge-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+/* Notes Section */
+.dossier-notes-box {
+  background: #FAF8F5;
+  border: 1.5px solid var(--ink);
+  border-left: 6px solid var(--retro-blue);
+  border-radius: var(--radius-sm);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='dark'] .dossier-notes-box,
+[data-theme='blueprint'] .dossier-notes-box {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.dossier-notes-tape {
+  font-family: var(--font-pixel);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--retro-blue);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.dossier-notes-box p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* Timeline Milestones Trail */
+.dossier-timeline-trail {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 28px;
+}
+
+.dossier-timeline-trail::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--ink);
+}
+
+.dossier-timeline-step {
+  position: relative;
+  margin-bottom: var(--space-lg);
+}
+
+.dossier-timeline-step:last-child {
+  margin-bottom: 0;
+}
+
+.dossier-timeline-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.dossier-timeline-pin {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--retro-yellow);
+  border: 2px solid var(--ink);
+}
+
+.dossier-timeline-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--retro-blue);
+  background: var(--bg-secondary);
+  padding: 1px 6px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+}
+
+.dossier-timeline-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 2px 0;
+}
+
+.dossier-timeline-desc {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+
+/* Related Cases Grid */
+.dossier-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-md);
+}
+
+.dossier-related-card {
+  background: var(--bg-secondary);
+  border: var(--border-thick);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-tactile);
+}
+
+.dossier-related-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--retro-blue);
+}
+
+.dossier-related-card__header {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.dossier-related-card__title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+
+.dossier-related-card__desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+  margin: 0 0 var(--space-md) 0;
+  flex: 1;
+}
+
+.dossier-related-card__footer {
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(23, 25, 28, 0.2);
+}
+
+.dossier-related-card__footer span {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--retro-blue);
+}
+
+/* Footer & Sealing Stamp */
+.project-dossier__footer {
+  padding: 12px 18px;
+  background: var(--bg-secondary);
+  border-top: var(--border-thick);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.project-dossier__footer-seal {
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--retro-green);
+  border: 1.5px dashed var(--retro-green);
+  padding: 3px 8px;
+  border-radius: 2px;
+  transform: rotate(-1.5deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dossier-challenge-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .dossier-challenge-arrow {
+    transform: rotate(90deg);
+  }
+
+  .project-dossier__title {
+    font-size: 1.4rem;
+  }
+
+  .project-dossier__body {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

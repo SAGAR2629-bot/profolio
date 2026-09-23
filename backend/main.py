@@ -1,0 +1,143 @@
+import os
+import sys
+import logging
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from sqlalchemy import text
+
+from app.database import engine, Base, SessionLocal, run_auto_migrations
+from app.seed import seed_database
+from app.routers import auth, public, admin_projects, admin_achievements, admin_content, admin_media
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
+logger = logging.getLogger("anand_archive_api")
+
+UPLOAD_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "uploads"))
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # 1. Initialize DB tables
+    Base.metadata.create_all(bind=engine)
+    run_auto_migrations(engine)
+
+    # 2. Seed database
+    db = SessionLocal()
+    try:
+        seed_database(db)
+    finally:
+        db.close()
+
+    # 3. Security check on startup
+    env = os.environ.get("ENVIRONMENT", "development").lower()
+    admin_pass = os.environ.get("ADMIN_PASSWORD", "admin123")
+    jwt_secret = os.environ.get("JWT_SECRET", "")
+
+    if env == "production":
+        if admin_pass == "admin123":
+            logger.warning("[SECURITY ALERT] Running in PRODUCTION with default ADMIN_PASSWORD 'admin123'! Change immediately.")
+        if not jwt_secret or "dev" in jwt_secret.lower():
+            logger.warning("[SECURITY ALERT] Running in PRODUCTION with default or development JWT_SECRET! Set a secure 64-char key.")
+
+    logger.info("Anand Sagar Engineering Archive Backend initialized successfully.")
+    yield
+    logger.info("Anand Sagar Engineering Archive Backend shutting down.")
+
+app = FastAPI(
+    title="Anand Sagar Engineering Archive - Content API",
+    version="1.0.0",
+    lifespan=lifespan
+)
+
+# Robust CORS Configuration
+cors_env = os.environ.get("CORS_ORIGINS", "")
+if cors_env.strip() == "*":
+    # If explicitly wildcarded, credentials must be False per browser security standards
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+elif cors_env:
+    allowed_origins = [origin.strip() for origin in cors_env.split(",") if origin.strip()]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    # Default development / preview origins
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1)(:\d+)?|https://.*\.vercel\.app|https://.*\.pages\.dev|https://.*\.netlify\.app)$",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+# Static files for uploaded images
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+# Global Exception Handler in Production
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    env = os.environ.get("ENVIRONMENT", "development").lower()
+    logger.error(f"Unhandled exception on {request.method} {request.url.path}: {str(exc)}", exc_info=True)
+    if env == "production":
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"detail": "An internal server error occurred. Please contact the administrator."}
+        )
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"detail": str(exc)}
+    )
+
+# Include Routers
+app.include_router(public.router)
+app.include_router(auth.router)
+app.include_router(admin_projects.router)
+app.include_router(admin_achievements.router)
+app.include_router(admin_content.router)
+app.include_router(admin_media.router)
+
+# Health Checks with Database Ping
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    db_ok = False
+    try:
+        db = SessionLocal()
+        db.execute(text("SELECT 1"))
+        db.close()
+        db_ok = True
+    except Exception as e:
+        logger.error(f"Health check database ping failed: {e}")
+
+    if not db_ok:
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={"status": "error", "database": "disconnected", "app": "Anand Sagar Portfolio API"}
+        )
+
+    return {
+        "status": "ok",
+        "database": "connected",
+        "app": "Anand Sagar Portfolio API",
+        "version": "1.0.0"
+    }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

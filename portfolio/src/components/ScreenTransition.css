@@ -1,0 +1,57 @@
+.screen-viewport {
+  position: relative;
+  min-height: 70vh;
+  width: 100%;
+}
+
+.screen-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--retro-cyan);
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 0 8px var(--retro-cyan);
+  animation: sweep-down 0.28s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+.screen-content {
+  animation: content-power-in 0.22s ease-out forwards;
+}
+
+@keyframes sweep-down {
+  0% {
+    top: 0%;
+    opacity: 0.85;
+  }
+  95% {
+    top: 100%;
+    opacity: 0.85;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes content-power-in {
+  0% {
+    opacity: 0.5;
+    filter: contrast(1.1) brightness(1.05);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-sweep {
+    display: none;
+  }
+  .screen-content {
+    animation: none;
+  }
+}

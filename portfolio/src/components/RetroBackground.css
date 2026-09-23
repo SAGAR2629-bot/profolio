@@ -1,0 +1,270 @@
+/* ============================================================
+   RETRO INTERACTIVE DATA TRANSMISSION CIRCUIT BACKGROUND
+   Living PCB trace system with traveling signal pulses,
+   dynamic node glow, and full theme integration.
+   ============================================================ */
+
+.retro-world-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  transition: background-color 0.25s ease;
+}
+
+/* Margin Stages on left and right outside the central console */
+.retro-bg-margin {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc((100vw - 1230px) / 2);
+  min-width: 140px;
+  max-width: 360px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.retro-bg-margin--left {
+  left: 0;
+}
+
+.retro-bg-margin--right {
+  right: 0;
+}
+
+/* SVG Circuit Canvas */
+.retro-circuit-svg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* PCB Trace Lines */
+.circuit-trace-line {
+  fill: none;
+  stroke: var(--accent-secondary);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.38;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s ease, opacity 0.3s ease;
+}
+
+/* Solder Pad Junction Nodes */
+.circuit-node__ring {
+  fill: var(--bg-primary);
+  stroke: var(--accent-secondary);
+  stroke-width: 1.8px;
+  opacity: 0.85;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s ease, fill 0.3s ease;
+}
+
+.circuit-node__core {
+  fill: var(--accent-primary);
+  opacity: 0.85;
+  transition: fill 0.3s ease;
+}
+
+/* Active Node Bloom Halo when signal passes through junction */
+.circuit-node__halo {
+  fill: var(--accent-secondary);
+  pointer-events: none;
+  transition: fill 0.3s ease;
+}
+
+/* Moving Signal Pulses */
+.circuit-pulse__core {
+  fill: #FFFFFF;
+  stroke: var(--accent-highlight);
+  stroke-width: 1px;
+  filter: drop-shadow(0 0 3px #FFFFFF);
+}
+
+.circuit-pulse__halo {
+  fill: var(--accent-secondary);
+  opacity: 0.8;
+  transition: fill 0.3s ease;
+}
+
+.circuit-pulse__trail-1 {
+  fill: var(--accent-secondary);
+  opacity: 0.55;
+  transition: fill 0.3s ease;
+}
+
+.circuit-pulse__trail-2 {
+  fill: var(--accent-primary);
+  opacity: 0.3;
+  transition: fill 0.3s ease;
+}
+
+/* Secondary Floating Marks (Subtle handcrafted retro atmosphere) */
+.retro-mark {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  animation: retro-mark-drift 24s ease-in-out infinite alternate;
+}
+
+.retro-mark--cross-1,
+.retro-mark--r-cross-1 {
+  animation-duration: 20s;
+}
+
+.retro-mark--diamond,
+.retro-mark--r-sq-cyan {
+  animation-duration: 22s;
+  animation-delay: 3s;
+}
+
+.retro-mark--cross-2,
+.retro-mark--r-cross-2 {
+  animation-duration: 26s;
+  animation-delay: 1s;
+}
+
+.retro-mark--r-sq-orange {
+  animation-duration: 28s;
+  animation-delay: 4s;
+}
+
+.retro-mark--r-star {
+  animation: retro-star-breathe 8s ease-in-out infinite alternate,
+             retro-mark-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes retro-mark-drift {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(3px) rotate(-1deg);
+  }
+}
+
+@keyframes retro-star-breathe {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Vertical Spaced Motto Text: BUILD LEARN ITERATE REPEAT / IDEAS SYSTEMS IMPACT */
+.retro-bg-motto {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-pixel);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  color: var(--ink-muted);
+  opacity: 0.55;
+  user-select: none;
+  font-weight: 700;
+  animation: retro-motto-float 26s ease-in-out infinite alternate;
+}
+
+.retro-bg-motto--right {
+  animation-delay: 3s;
+}
+
+@keyframes retro-motto-float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE OPTIMIZATION
+   ============================================================ */
+
+/* Laptops / Mid Desktops */
+@media (max-width: 1260px) {
+  .retro-bg-margin {
+    width: 110px;
+    min-width: 90px;
+    opacity: 0.75;
+  }
+  
+  .retro-bg-motto {
+    display: none;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .retro-bg-margin {
+    width: 70px;
+    min-width: 50px;
+    opacity: 0.6;
+  }
+  
+  .retro-mark {
+    display: none;
+  }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+  .retro-bg-margin {
+    width: 32px;
+    min-width: 24px;
+    opacity: 0.35;
+  }
+
+  /* Deactivate signal pulses on mobile to keep page 100% clean and readable */
+  .circuit-signals {
+    display: none;
+  }
+
+  .circuit-node__halo {
+    display: none;
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY: PREFERS REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .retro-mark,
+  .retro-bg-motto {
+    animation: none !important;
+  }
+
+  .circuit-signals {
+    display: none !important;
+  }
+
+  .circuit-node__halo {
+    display: none !important;
+  }
+}

@@ -1,0 +1,89 @@
+.experience__log {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.exp-log-card {
+  padding: var(--space-xl);
+  background: var(--bg-paper);
+}
+
+.exp-log-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border-thick);
+}
+
+.exp-log-card__role {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.exp-log-card__company {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--retro-blue);
+  margin: 0;
+}
+
+.exp-log-card__date {
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--retro-cyan);
+  padding: 4px 10px;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.exp-log-card__desc {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.exp-log-card__tech {
+  padding-top: var(--space-md);
+  border-top: var(--border-dashed);
+}
+
+.exp-log-card__tech-label {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.exp-log-card__tech-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 680px) {
+  .exp-log-card {
+    padding: var(--space-lg);
+  }
+
+  .exp-log-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
