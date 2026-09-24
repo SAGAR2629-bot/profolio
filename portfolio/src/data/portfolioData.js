@@ -6,7 +6,7 @@ export const personalInfo = {
   name: "Anand Sagar",
   tagline: "AI / ML • Robotics • Computer Vision • Reinforcement Learning",
   heroSubtitle: "Building intelligent systems that connect AI with the real world.",
-  email: "anand@example.com",
+  email: "anndsagar19759@gmail.com",
   github: "https://github.com/anand",
   linkedin: "https://linkedin.com/in/anand",
   twitter: "https://twitter.com/anand",

@@ -6,13 +6,50 @@ import '../components/Contact.css';
 export default function ContactPage() {
   const { personalInfo } = usePortfolioData();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle'); // 'idle' | 'transmitting' | 'success' | 'error'
+  const [feedback, setFeedback] = useState('');
 
-  const handleSubmit = (e) => {
+  const targetEmail = personalInfo?.email || 'anndsagar19759@gmail.com';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setStatus('transmitting');
+    setFeedback('');
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `[Engineering Archive] ${formData.subject ? formData.subject : 'Transmission from ' + formData.name}`,
+          message: formData.message,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok || data.success === 'true' || data.success === true) {
+        setStatus('success');
+        setFeedback('TRANSMISSION CONFIRMED // Message payload delivered to Anand Sagar.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Dispatch refused by server');
+      }
+    } catch (err) {
+      console.warn('Contact dispatch warning:', err);
+      // Fallback: If FormSubmit returns network issue, offer direct mail link
+      setStatus('error');
+      setFeedback('TRANSMISSION NOTICE // Network channel interrupted. You can also mail directly at ' + targetEmail);
+    }
   };
 
   return (
@@ -107,10 +144,38 @@ export default function ContactPage() {
 
               <button 
                 type="submit" 
-                className={`retro-btn retro-btn--blue contact__submit ${submitted ? 'retro-btn--green' : ''}`}
+                disabled={status === 'transmitting'}
+                className={`retro-btn ${status === 'success' ? 'retro-btn--green' : 'retro-btn--blue'} contact__submit`}
+                style={{ opacity: status === 'transmitting' ? 0.75 : 1, cursor: status === 'transmitting' ? 'wait' : 'pointer' }}
               >
-                <span>{submitted ? '[ TRANSMISSION DELIVERED ✓ ]' : '[ TRANSMIT MESSAGE ➔ ]'}</span>
+                <span>
+                  {status === 'transmitting' && '[ TRANSMITTING TELEMETRY... ⏳ ]'}
+                  {status === 'success' && '[ TRANSMISSION DELIVERED ✓ ]'}
+                  {status === 'error' && '[ RETRY TRANSMISSION ➔ ]'}
+                  {status === 'idle' && '[ TRANSMIT MESSAGE ➔ ]'}
+                </span>
               </button>
+
+              {feedback && (
+                <div 
+                  className={`contact__status-banner ${status === 'success' ? 'contact__status-banner--success' : 'contact__status-banner--error'}`}
+                  style={{
+                    marginTop: '1rem',
+                    padding: '10px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: 'var(--border-thick)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.8rem',
+                    fontWeight: '600',
+                    background: status === 'success' ? '#ECFDF5' : '#FEF2F2',
+                    color: status === 'success' ? '#065F46' : '#991B1B',
+                    boxShadow: '2px 2px 0px var(--ink)',
+                    lineHeight: '1.4'
+                  }}
+                >
+                  <span>{status === 'success' ? '● ' : '▲ '} {feedback}</span>
+                </div>
+              )}
             </div>
           </form>
 
