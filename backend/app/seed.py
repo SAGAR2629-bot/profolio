@@ -12,9 +12,9 @@ SEED_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "seed_
 def seed_database(db: Session):
     """Seeds the database from portfolio.json and default credentials if empty."""
     # 1. Admin User
-    admin = db.query(AdminUser).first()
+    default_user, default_pass = get_admin_credentials()
+    admin = db.query(AdminUser).filter(AdminUser.username == default_user).first()
     if not admin:
-        default_user, default_pass = get_admin_credentials()
         admin = AdminUser(
             username=default_user,
             hashed_password=hash_password(default_pass)
@@ -22,6 +22,10 @@ def seed_database(db: Session):
         db.add(admin)
         db.commit()
         print(f"[SEED] Created default admin user: {default_user}")
+    elif os.environ.get("ADMIN_PASSWORD"):
+        admin.hashed_password = hash_password(default_pass)
+        db.commit()
+        print(f"[SEED] Synchronized admin password from environment for user: {default_user}")
 
     # Check if content already seeded
     if db.query(Project).count() > 0 or db.query(Profile).count() > 0:
