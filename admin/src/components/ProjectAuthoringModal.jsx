@@ -423,6 +423,22 @@ export default function ProjectAuthoringModal({
     }
   };
 
+  const isVideoMedia = (img) => {
+    if (!img) return false;
+    if (img.media_type === 'VIDEO') return true;
+    const url = (img.url || img.media?.public_url || img.media?.filename || '').toLowerCase();
+    return (
+      url.endsWith('.mp4') ||
+      url.endsWith('.webm') ||
+      url.endsWith('.mov') ||
+      url.endsWith('.m4v') ||
+      url.includes('youtube.com/') ||
+      url.includes('youtu.be/') ||
+      url.includes('vimeo.com/') ||
+      (img.media?.mime_type && img.media.mime_type.startsWith('video/'))
+    );
+  };
+
   const coverImage = galleryImages.find((img) => img.is_cover) || galleryImages[0];
 
   return (
@@ -606,7 +622,14 @@ export default function ProjectAuthoringModal({
                 <span className="cover-deck-label">PRIMARY DOSSIER COVER:</span>
                 {coverImage ? (
                   <div className="cover-deck-item">
-                    <img src={resolveMediaUrl(coverImage.url || coverImage.media?.public_url)} alt="Cover" />
+                    {isVideoMedia(coverImage) ? (
+                      <div style={{ position: 'relative', width: '80px', height: '60px', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px', overflow: 'hidden' }}>
+                        <video src={resolveMediaUrl(coverImage.url || coverImage.media?.public_url)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <span style={{ position: 'absolute', bottom: '2px', left: '2px', background: 'rgba(0,0,0,0.8)', color: '#38BDF8', fontSize: '0.55rem', padding: '1px 3px', borderRadius: '2px', fontWeight: 'bold' }}>▶ VID</span>
+                      </div>
+                    ) : (
+                      <img src={resolveMediaUrl(coverImage.url || coverImage.media?.public_url)} alt="Cover" />
+                    )}
                     <div>
                       <strong>★ COVER IMAGE SET</strong>
                       <p>{coverImage.caption || 'Telemetry asset'}</p>
@@ -815,7 +838,20 @@ export default function ProjectAuthoringModal({
                       {galleryImages.map((img, idx) => (
                         <div key={img.id} className={`media-card-item ${img.is_cover ? 'is-cover' : ''}`}>
                           <div className="media-card-thumb">
-                            <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt={img.caption} />
+                            {isVideoMedia(img) ? (
+                              <div style={{ position: 'relative', width: '100%', height: '100%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <video
+                                  src={resolveMediaUrl(img.url || img.media?.public_url)}
+                                  preload="metadata"
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                                <span style={{ position: 'absolute', bottom: '4px', left: '4px', background: 'rgba(0,0,0,0.85)', color: '#38BDF8', border: '1px solid #38BDF8', fontSize: '0.62rem', padding: '1px 4px', borderRadius: '3px', fontWeight: 'bold' }}>
+                                  ▶ VIDEO
+                                </span>
+                              </div>
+                            ) : (
+                              <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt={img.caption} />
+                            )}
                             {img.is_cover && <span className="media-cover-tag">★ COVER</span>}
                           </div>
 

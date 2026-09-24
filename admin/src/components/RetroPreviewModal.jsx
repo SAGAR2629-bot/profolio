@@ -6,6 +6,30 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
   const [activeTheme, setActiveTheme] = useState('warm-archive');
   const [activeImgIdx, setActiveImgIdx] = useState(0);
 
+  const isVideoMedia = (img) => {
+    if (!img) return false;
+    if (img.media_type === 'VIDEO') return true;
+    const url = (img.url || img.media?.public_url || '').toLowerCase();
+    return (
+      url.endsWith('.mp4') ||
+      url.endsWith('.webm') ||
+      url.endsWith('.mov') ||
+      url.endsWith('.m4v') ||
+      url.includes('youtube.com/') ||
+      url.includes('youtu.be/') ||
+      url.includes('vimeo.com/')
+    );
+  };
+
+  const getEmbedUrl = (url) => {
+    if (!url) return null;
+    const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0`;
+    const vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)/);
+    if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[3]}`;
+    return null;
+  };
+
   if (!isOpen || !data) return null;
 
   const themes = [
@@ -105,13 +129,32 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
                       <span className="preview-type-chip">[{currentImg?.media_type || "SCREENSHOT"}]</span>
                     </div>
                     <div className="preview-gallery-main">
-                      <img
-                        src={resolveMediaUrl(currentImg?.url || currentImg?.media?.public_url)}
-                        alt="Preview"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
+                      {isVideoMedia(currentImg) ? (
+                        getEmbedUrl(currentImg?.url || currentImg?.media?.public_url) ? (
+                          <iframe
+                            src={getEmbedUrl(currentImg?.url || currentImg?.media?.public_url)}
+                            title="Preview Video"
+                            allowFullScreen
+                            style={{ width: '100%', height: '320px', border: 'none' }}
+                          />
+                        ) : (
+                          <video
+                            key={currentImg?.url || currentImg?.media?.public_url}
+                            src={resolveMediaUrl(currentImg?.url || currentImg?.media?.public_url)}
+                            controls
+                            playsInline
+                            style={{ maxWidth: '100%', maxHeight: '340px', borderRadius: '4px' }}
+                          />
+                        )
+                      ) : (
+                        <img
+                          src={resolveMediaUrl(currentImg?.url || currentImg?.media?.public_url)}
+                          alt="Preview"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      )}
                       {images.length > 1 && (
                         <div className="preview-gallery-nav">
                           <button
@@ -142,7 +185,13 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
                             className={`thumb-box ${i === safeImgIdx ? 'selected' : ''}`}
                             onClick={() => setActiveImgIdx(i)}
                           >
-                            <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt="" />
+                            {isVideoMedia(img) ? (
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: '#0B0F17', color: '#38BDF8', fontSize: '0.65rem', fontWeight: 'bold' }}>
+                                ▶ VID
+                              </div>
+                            ) : (
+                              <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt="" />
+                            )}
                           </button>
                         ))}
                       </div>

@@ -22,13 +22,31 @@ async def upload_media(
         file, title=title or "", alt_text=alt_text or ""
     )
 
+    # Ensure robust mime_type detection
+    determined_mime = file.content_type or ""
+    if not determined_mime or determined_mime == "application/octet-stream":
+        _, ext = os.path.splitext(safe_name)
+        ext = ext.lower()
+        if ext in (".mp4", ".m4v"):
+            determined_mime = "video/mp4"
+        elif ext == ".webm":
+            determined_mime = "video/webm"
+        elif ext == ".mov":
+            determined_mime = "video/quicktime"
+        elif ext in (".jpg", ".jpeg"):
+            determined_mime = "image/jpeg"
+        elif ext == ".png":
+            determined_mime = "image/png"
+        elif ext == ".webp":
+            determined_mime = "image/webp"
+
     media = MediaAsset(
         filename=safe_name,
         storage_path=storage_path,
         public_url=public_url,
         title=title or safe_name,
         alt_text=alt_text or "",
-        mime_type=file.content_type,
+        mime_type=determined_mime or "application/octet-stream",
         file_size=file_size,
         width=width,
         height=height

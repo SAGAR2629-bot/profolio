@@ -58,7 +58,36 @@ export default function RetroImageSlider({ images = [], title = "ARCHIVE IMAGERY
     setImgErrors((prev) => ({ ...prev, [idx]: true }));
   };
 
-  const mediaTypeLabel = currentImg.media_type || "OTHER";
+  const isVideoMedia = (img) => {
+    if (!img) return false;
+    if (img.media_type === 'VIDEO') return true;
+    const url = (img.url || '').toLowerCase();
+    return (
+      url.endsWith('.mp4') ||
+      url.endsWith('.webm') ||
+      url.endsWith('.mov') ||
+      url.endsWith('.m4v') ||
+      url.endsWith('.ogv') ||
+      url.includes('youtube.com/') ||
+      url.includes('youtu.be/') ||
+      url.includes('vimeo.com/')
+    );
+  };
+
+  const getEmbedUrl = (url) => {
+    if (!url) return null;
+    const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    if (ytMatch) {
+      return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0`;
+    }
+    const vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)/);
+    if (vimeoMatch) {
+      return `https://player.vimeo.com/video/${vimeoMatch[3]}`;
+    }
+    return null;
+  };
+
+  const mediaTypeLabel = currentImg.media_type || (isVideoMedia(currentImg) ? "VIDEO" : "OTHER");
 
   return (
     <div className="retro-slider-container">
@@ -86,8 +115,33 @@ export default function RetroImageSlider({ images = [], title = "ARCHIVE IMAGERY
           <div className="retro-slider-fallback">
             <div className="retro-slider-fallback-grid">
               <span className="fallback-chip">TELEMETRY_LOGGED</span>
-              <span className="fallback-title">{currentImg.caption || "IMAGE DATA ATTACHED"}</span>
+              <span className="fallback-title">{currentImg.caption || "MEDIA DATA ATTACHED"}</span>
               <span className="fallback-sub">MEDIA TYPE: {mediaTypeLabel}</span>
+            </div>
+          </div>
+        ) : isVideoMedia(currentImg) ? (
+          <div className="retro-slider-video-container">
+            {getEmbedUrl(currentImg.url) ? (
+              <iframe
+                src={getEmbedUrl(currentImg.url)}
+                title={currentImg.caption || "Project Video Stream"}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="retro-slider-iframe"
+              />
+            ) : (
+              <video
+                key={currentImg.url}
+                src={currentImg.url}
+                controls
+                playsInline
+                preload="metadata"
+                className="retro-slider-video"
+                onError={() => handleImgError(safeIndex)}
+              />
+            )}
+            <div className="retro-slider-video-badge">
+              <span>▶ VIDEO STREAM</span>
             </div>
           </div>
         ) : (
@@ -136,11 +190,16 @@ export default function RetroImageSlider({ images = [], title = "ARCHIVE IMAGERY
             <button
               key={img.id || idx}
               type="button"
-              className={`retro-slider-thumb-btn ${idx === currentIndex ? 'active' : ''}`}
+              className={`retro-slider-thumb-btn ${idx === currentIndex ? 'active' : ''} ${isVideoMedia(img) ? 'is-video-thumb' : ''}`}
               onClick={() => setCurrentIndex(idx)}
-              aria-label={`View image ${idx + 1}`}
+              aria-label={`View media ${idx + 1}`}
             >
-              {imgErrors[idx] || !img.url ? (
+              {isVideoMedia(img) ? (
+                <div className="thumb-video-glyph">
+                  <span className="thumb-video-icon">▶</span>
+                  <span className="thumb-video-tag">VIDEO</span>
+                </div>
+              ) : imgErrors[idx] || !img.url ? (
                 <div className="thumb-fallback-box">#{idx + 1}</div>
               ) : (
                 <img
@@ -172,7 +231,27 @@ export default function RetroImageSlider({ images = [], title = "ARCHIVE IMAGERY
               </button>
             </div>
             <div className="retro-lightbox-img-wrap">
-              <img src={currentImg.url} alt={currentImg.alt || "Lightbox View"} />
+              {isVideoMedia(currentImg) ? (
+                getEmbedUrl(currentImg.url) ? (
+                  <iframe
+                    src={getEmbedUrl(currentImg.url)}
+                    title="Lightbox Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="retro-lightbox-iframe"
+                  />
+                ) : (
+                  <video
+                    src={currentImg.url}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="retro-lightbox-video"
+                  />
+                )
+              ) : (
+                <img src={currentImg.url} alt={currentImg.alt || "Lightbox View"} />
+              )}
             </div>
             {currentImg.caption && (
               <div className="retro-lightbox-caption">

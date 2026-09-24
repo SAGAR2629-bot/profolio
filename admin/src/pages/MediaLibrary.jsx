@@ -14,6 +14,15 @@ export default function MediaLibrary() {
   const [checkingRefs, setCheckingRefs] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
 
+  const isVideoAsset = (media) => {
+    if (!media) return false;
+    return (
+      (media.mime_type && media.mime_type.startsWith('video/')) ||
+      /\.(mp4|webm|mov|m4v|ogv)$/i.test(media.filename || '') ||
+      /\.(mp4|webm|mov|m4v|ogv)$/i.test(media.public_url || '')
+    );
+  };
+
   const fetchMedia = async () => {
     try {
       const data = await api.getMedia();
@@ -104,14 +113,14 @@ export default function MediaLibrary() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Centralized Media Library</h1>
-          <p className="page-subtitle">Upload, inspect references, and manage Pillow-optimized image assets</p>
+          <p className="page-subtitle">Upload, inspect references, and manage images and video demo assets</p>
         </div>
         <div className="page-header-actions">
           <label className="btn btn-primary" style={{ cursor: 'pointer' }}>
-            {uploading ? 'Processing & Optimizing...' : '⬆ Upload Image (.jpg, .png, .webp)'}
+            {uploading ? 'Processing & Uploading...' : '⬆ Upload Media (Image / Video)'}
             <input
               type="file"
-              accept="image/jpeg,image/png,image/webp"
+              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
               style={{ display: 'none' }}
               onChange={handleUpload}
               disabled={uploading}
@@ -159,11 +168,36 @@ export default function MediaLibrary() {
                 onClick={() => handleInspect(media)}
                 title="Click to inspect metadata and references"
               >
-                <img
-                  src={resolveMediaUrl(media.public_url)}
-                  alt={media.alt_text || media.filename}
-                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                />
+                {isVideoAsset(media) ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <video
+                      src={resolveMediaUrl(media.public_url)}
+                      preload="metadata"
+                      style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '8px',
+                      left: '8px',
+                      background: 'rgba(11, 15, 23, 0.85)',
+                      border: '1px solid #38BDF8',
+                      color: '#38BDF8',
+                      fontSize: '0.68rem',
+                      fontWeight: 'bold',
+                      padding: '2px 6px',
+                      borderRadius: '3px',
+                      fontFamily: 'monospace'
+                    }}>
+                      ▶ VIDEO
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={resolveMediaUrl(media.public_url)}
+                    alt={media.alt_text || media.filename}
+                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                  />
+                )}
               </div>
 
               <div>
@@ -216,11 +250,20 @@ export default function MediaLibrary() {
 
             <div className="modal-body">
               <div style={{ display: 'flex', justifyContent: 'center', background: '#0B0F17', padding: '1rem', borderRadius: '6px', marginBottom: '1.25rem' }}>
-                <img
-                  src={resolveMediaUrl(selectedMedia.public_url)}
-                  alt=""
-                  style={{ maxHeight: '200px', maxWidth: '100%', objectFit: 'contain' }}
-                />
+                {isVideoAsset(selectedMedia) ? (
+                  <video
+                    src={resolveMediaUrl(selectedMedia.public_url)}
+                    controls
+                    playsInline
+                    style={{ maxHeight: '280px', maxWidth: '100%', borderRadius: '4px' }}
+                  />
+                ) : (
+                  <img
+                    src={resolveMediaUrl(selectedMedia.public_url)}
+                    alt=""
+                    style={{ maxHeight: '200px', maxWidth: '100%', objectFit: 'contain' }}
+                  />
+                )}
               </div>
 
               <div className="system-specs-list" style={{ marginBottom: '1.5rem' }}>

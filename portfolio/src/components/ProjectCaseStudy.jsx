@@ -37,8 +37,6 @@ export default function ProjectCaseStudy({
   if (!project) return null;
 
   const num = String(projectNumber).padStart(2, '0');
-  const images = project.images || (project.image ? [{ url: project.image, caption: project.title, is_cover: true }] : []);
-
   const links = project.links || {};
   const hasGithub = project.github || links.github;
   const hasLive = project.live || project.demo || links.demo || links.live;
@@ -48,6 +46,22 @@ export default function ProjectCaseStudy({
   const hasDataset = links.dataset;
   const hasOther = links.other;
   const hasAnyLinks = hasGithub || hasLive || hasDocs || hasPaper || hasVideo || hasDataset || hasOther;
+
+  const images = useMemo(() => {
+    const list = [...(project.images || [])];
+    if (list.length === 0 && project.image) {
+      list.push({ url: project.image, caption: project.title, is_cover: true });
+    }
+    if (hasVideo && !list.some(item => item.url === hasVideo)) {
+      list.unshift({
+        url: hasVideo,
+        caption: `${project.title} — Demonstration Video Stream`,
+        media_type: 'VIDEO',
+        is_cover: false
+      });
+    }
+    return list;
+  }, [project, hasVideo]);
 
   const metrics = (project.metrics && Array.isArray(project.metrics)) ? project.metrics : [];
   const challenges = (project.challenges && Array.isArray(project.challenges)) ? project.challenges : [];
@@ -147,9 +161,9 @@ export default function ProjectCaseStudy({
                   href={hasVideo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="retro-btn"
+                  className="retro-btn retro-btn--cyan"
                 >
-                  <span>[ VIDEO STREAM ↗ ]</span>
+                  <span>[ ▶ VIDEO STREAM ↗ ]</span>
                 </a>
               )}
               {hasDataset && (
