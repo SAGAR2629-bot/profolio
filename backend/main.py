@@ -56,31 +56,29 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Robust CORS Configuration
-cors_env = os.environ.get("CORS_ORIGINS", "")
-if cors_env.strip() == "*":
-    # If explicitly wildcarded, credentials must be False per browser security standards
+# Robust CORS Configuration: Seamless support for Vercel, localhost, Render, and custom domains
+cors_env = os.environ.get("CORS_ORIGINS", "").strip()
+
+custom_origins = []
+if cors_env and cors_env != "*":
+    custom_origins = [origin.strip().strip("'\"") for origin in cors_env.split(",") if origin.strip()]
+
+# Regex covering all localhost, 127.0.0.1, Vercel deployments, Render, Netlify, and Cloudflare Pages
+DEFAULT_ORIGIN_REGEX = r"^(https?://(localhost|127\.0\.0\.1)(:\d+)?|https://.*\.vercel\.app|https://.*\.onrender\.com|https://.*\.pages\.dev|https://.*\.netlify\.app)$"
+
+if cors_env == "*":
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=False,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-elif cors_env:
-    allowed_origins = [origin.strip() for origin in cors_env.split(",") if origin.strip()]
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=allowed_origins,
+        allow_origin_regex=r"^https?://.*$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
 else:
-    # Default development / preview origins
     app.add_middleware(
         CORSMiddleware,
-        allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1)(:\d+)?|https://.*\.vercel\.app|https://.*\.pages\.dev|https://.*\.netlify\.app)$",
+        allow_origins=custom_origins,
+        allow_origin_regex=DEFAULT_ORIGIN_REGEX,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
