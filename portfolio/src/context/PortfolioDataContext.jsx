@@ -4,6 +4,20 @@ import * as fallbackData from '../data/portfolioData';
 
 const PortfolioDataContext = createContext(null);
 
+const CLOUD_API_URL = 'https://profolio-api-2zt9.onrender.com';
+
+const getApiUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL.replace(/\/+$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://127.0.0.1:8000';
+    }
+  }
+  return CLOUD_API_URL;
+};
+
 export function PortfolioDataProvider({ children }) {
   // Initialize with complete fallback data
   const [data, setData] = useState({
@@ -21,20 +35,18 @@ export function PortfolioDataProvider({ children }) {
   });
 
   useEffect(() => {
-    const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-    const defaultApi = typeof window !== 'undefined' && window.location.hostname === '127.0.0.1'
-      ? 'http://127.0.0.1:8000'
-      : (isHttps ? '' : 'http://localhost:8000');
-    const rawApiUrl = import.meta.env.VITE_API_URL || defaultApi;
-    const apiUrl = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
+    const apiUrl = getApiUrl();
     let isMounted = true;
+
+    const resolveMediaUrl = (url) => {
+      if (!url) return '';
+      if (url.startsWith('http://') || url.startsWith('https://')) return url;
+      if (url.startsWith('/uploads/')) return `${apiUrl}${url}`;
+      return url;
+    };
 
     async function fetchPortfolio() {
       try {
-        if (isHttps && !import.meta.env.VITE_API_URL && !window.location.hostname.match(/localhost|127\.0\.0\.1/)) {
-          // If on HTTPS and no API URL configured, retain offline fallback gracefully
-          return;
-        }
         const res = await fetch(`${apiUrl}/api/public/portfolio`);
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const apiData = await res.json();
@@ -73,8 +85,11 @@ export function PortfolioDataProvider({ children }) {
               year: p.year,
               category: p.category,
               status: p.status,
-              image: p.image,
-              images: p.images || [],
+              image: resolveMediaUrl(p.image),
+              images: (p.images || []).map(img => ({
+                ...img,
+                url: resolveMediaUrl(img.url)
+              })),
               featured: !!p.featured,
               domain: p.domain || "Robotics / AI",
               platform: p.platform || "Physical & Simulation",
@@ -108,8 +123,11 @@ export function PortfolioDataProvider({ children }) {
               related_project_slug: a.related_project_slug || "",
               verification_url: a.verification_url || "",
               event_date: a.event_date || "",
-              image: a.image,
-              images: a.images || [],
+              image: resolveMediaUrl(a.image),
+              images: (a.images || []).map(img => ({
+                ...img,
+                url: resolveMediaUrl(img.url)
+              })),
             }))
           : fallbackData.achievements;
 
@@ -128,8 +146,8 @@ export function PortfolioDataProvider({ children }) {
               related_skills: c.related_skills || [],
               related_project_slug: c.related_project_slug || "",
               featured: !!c.featured,
-              image: c.image || (c.media ? c.media.url : ""),
-              media: c.media || null,
+              image: resolveMediaUrl(c.image || (c.media ? c.media.url : "")),
+              media: c.media ? { ...c.media, url: resolveMediaUrl(c.media.url) } : null,
               display_order: c.display_order || 0
             }))
           : fallbackData.certificates;
