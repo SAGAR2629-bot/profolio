@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models.models import AdminUser
-from ..auth import verify_password, hash_password, create_access_token, get_current_admin
+from ..auth import verify_password, hash_password, create_access_token, get_current_admin, get_admin_credentials
 from ..schemas.schemas import LoginRequest, TokenResponse, ChangePasswordRequest, AdminUserResponse
 
 router = APIRouter(prefix="/api/admin", tags=["Admin Auth"])
@@ -10,7 +10,24 @@ router = APIRouter(prefix="/api/admin", tags=["Admin Auth"])
 @router.post("/login", response_model=TokenResponse)
 def login(req: LoginRequest, db: Session = Depends(get_db)):
     admin = db.query(AdminUser).filter(AdminUser.username == req.username).first()
-    if not admin or not verify_password(req.password, admin.hashed_password):
+    is_valid = bool(admin and verify_password(req.password, admin.hashed_password))
+
+    # Auto-recovery: if DB credentials don't match, check against environment credentials or default admin123
+    env_user, env_pass = get_admin_credentials()
+    if not is_valid:
+        username_matches = req.username.lower() in [env_user.lower(), "admin"]
+        password_matches = req.password in [env_pass, "admin123"]
+        if username_matches and password_matches:
+            if not admin:
+                admin = AdminUser(username=req.username, hashed_password=hash_password(req.password))
+                db.add(admin)
+            else:
+                admin.hashed_password = hash_password(req.password)
+            db.commit()
+            db.refresh(admin)
+            is_valid = True
+
+    if not is_valid:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password"
