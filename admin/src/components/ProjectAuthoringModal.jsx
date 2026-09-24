@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { api, resolveMediaUrl } from '../services/api';
 import './ProjectAuthoringModal.css';
 
 export default function ProjectAuthoringModal({
@@ -606,7 +606,7 @@ export default function ProjectAuthoringModal({
                 <span className="cover-deck-label">PRIMARY DOSSIER COVER:</span>
                 {coverImage ? (
                   <div className="cover-deck-item">
-                    <img src={coverImage.url || coverImage.media?.public_url} alt="Cover" />
+                    <img src={resolveMediaUrl(coverImage.url || coverImage.media?.public_url)} alt="Cover" />
                     <div>
                       <strong>★ COVER IMAGE SET</strong>
                       <p>{coverImage.caption || 'Telemetry asset'}</p>
@@ -815,7 +815,7 @@ export default function ProjectAuthoringModal({
                       {galleryImages.map((img, idx) => (
                         <div key={img.id} className={`media-card-item ${img.is_cover ? 'is-cover' : ''}`}>
                           <div className="media-card-thumb">
-                            <img src={img.url || img.media?.public_url} alt={img.caption} />
+                            <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt={img.caption} />
                             {img.is_cover && <span className="media-cover-tag">★ COVER</span>}
                           </div>
 

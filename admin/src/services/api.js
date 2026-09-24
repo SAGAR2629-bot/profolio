@@ -14,6 +14,15 @@ const getApiBaseUrl = () => {
 
 export const API_BASE_URL = getApiBaseUrl();
 
+export function resolveMediaUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url;
+  }
+  const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+  return `${API_BASE_URL}${cleanUrl}`;
+}
+
 export function getAuthToken() {
   return localStorage.getItem('archive_admin_token');
 }
@@ -288,17 +297,27 @@ export const api = {
     }),
 
   // Media
-  getMedia: () => request('/api/admin/media'),
+  getMedia: async () => {
+    const list = await request('/api/admin/media');
+    return (list || []).map((item) => ({
+      ...item,
+      public_url: resolveMediaUrl(item.public_url)
+    }));
+  },
   uploadMedia: async (file, title = '', alt_text = '') => {
     const formData = new FormData();
     formData.append('file', file);
     if (title) formData.append('title', title);
     if (alt_text) formData.append('alt_text', alt_text);
 
-    return request('/api/admin/media/upload', {
+    const item = await request('/api/admin/media/upload', {
       method: 'POST',
       body: formData
     });
+    return {
+      ...item,
+      public_url: resolveMediaUrl(item.public_url)
+    };
   },
   getMediaReferences: (id) => request(`/api/admin/media/${id}/references`),
   updateMedia: (id, data) =>
@@ -309,5 +328,6 @@ export const api = {
   deleteMedia: (id, force = false) =>
     request(`/api/admin/media/${id}?force=${force}`, {
       method: 'DELETE'
-    })
+    }),
+  resolveMediaUrl
 };

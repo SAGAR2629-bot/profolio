@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api, API_BASE_URL } from '../services/api';
+import { api, API_BASE_URL, resolveMediaUrl } from '../services/api';
 
 export default function MediaLibrary() {
   const [mediaList, setMediaList] = useState([]);
@@ -160,7 +160,7 @@ export default function MediaLibrary() {
                 title="Click to inspect metadata and references"
               >
                 <img
-                  src={media.public_url}
+                  src={resolveMediaUrl(media.public_url)}
                   alt={media.alt_text || media.filename}
                   style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                 />
@@ -217,7 +217,7 @@ export default function MediaLibrary() {
             <div className="modal-body">
               <div style={{ display: 'flex', justifyContent: 'center', background: '#0B0F17', padding: '1rem', borderRadius: '6px', marginBottom: '1.25rem' }}>
                 <img
-                  src={selectedMedia.public_url}
+                  src={resolveMediaUrl(selectedMedia.public_url)}
                   alt=""
                   style={{ maxHeight: '200px', maxWidth: '100%', objectFit: 'contain' }}
                 />

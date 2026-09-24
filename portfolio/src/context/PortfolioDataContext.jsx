@@ -40,8 +40,12 @@ export function PortfolioDataProvider({ children }) {
 
     const resolveMediaUrl = (url) => {
       if (!url) return '';
-      if (url.startsWith('http://') || url.startsWith('https://')) return url;
-      if (url.startsWith('/uploads/')) return `${apiUrl}${url}`;
+      if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+      if (url.startsWith('/uploads/') || url.startsWith('uploads/')) {
+        const clean = url.startsWith('/') ? url : `/${url}`;
+        return `${apiUrl}${clean}`;
+      }
+      if (url.startsWith('/')) return `${apiUrl}${url}`;
       return url;
     };
 
@@ -149,8 +153,8 @@ export function PortfolioDataProvider({ children }) {
               related_skills: c.related_skills || [],
               related_project_slug: c.related_project_slug || "",
               featured: !!c.featured,
-              image: resolveMediaUrl(c.image || (c.media ? c.media.url : "")),
-              media: c.media ? { ...c.media, url: resolveMediaUrl(c.media.url) } : null,
+              image: resolveMediaUrl(c.image || (c.media ? (c.media.url || c.media.public_url) : "")),
+              media: c.media ? { ...c.media, url: resolveMediaUrl(c.media.url || c.media.public_url) } : null,
               display_order: c.display_order || 0
             }))
           : fallbackData.certificates;
@@ -169,7 +173,7 @@ export function PortfolioDataProvider({ children }) {
               relatedSkills: e.relatedSkills || e.related_skills || [],
               achievements: e.achievements || [],
               featured: !!e.featured,
-              image: e.image || "",
+              image: resolveMediaUrl(e.image),
               display_order: e.display_order || 0
             }))
           : fallbackData.education;
@@ -191,7 +195,7 @@ export function PortfolioDataProvider({ children }) {
               relatedSkills: ex.relatedSkills || ex.related_skills || [],
               externalUrl: ex.externalUrl || ex.external_url || "",
               featured: !!ex.featured,
-              image: ex.image || "",
+              image: resolveMediaUrl(ex.image),
               display_order: ex.display_order || 0
             }))
           : fallbackData.experience;

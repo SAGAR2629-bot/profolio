@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { api } from '../services/api';
+import { api, resolveMediaUrl } from '../services/api';
 import RetroPreviewModal from '../components/RetroPreviewModal';
 
 export default function ExperienceManager() {
@@ -731,7 +731,7 @@ export default function ExperienceManager() {
                       {selectedMedia ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'var(--admin-bg-base)', padding: '0.75rem', border: '1px solid var(--admin-border)', borderRadius: '6px' }}>
                           <img
-                            src={selectedMedia.public_url}
+                            src={resolveMediaUrl(selectedMedia.public_url)}
                             alt=""
                             style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--admin-border)' }}
                           />
@@ -877,7 +877,7 @@ export default function ExperienceManager() {
                     }}
                   >
                     <img
-                      src={asset.public_url}
+                      src={resolveMediaUrl(asset.public_url)}
                       alt=""
                       style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '4px', marginBottom: '0.35rem' }}
                     />

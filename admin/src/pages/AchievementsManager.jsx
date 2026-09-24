@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { api } from '../services/api';
+import { api, resolveMediaUrl } from '../services/api';
 import RetroPreviewModal from '../components/RetroPreviewModal';
 import './ProjectsManager.css';
 
@@ -798,7 +798,7 @@ export default function AchievementsManager() {
                             {galleryImages.map((img) => (
                               <div key={img.id} style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: '4px', padding: '6px', position: 'relative' }}>
                                 <img
-                                  src={img.media?.public_url}
+                                  src={resolveMediaUrl(img.media?.public_url || img.url)}
                                   alt={img.caption || "Evidence"}
                                   style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '2px', display: 'block' }}
                                 />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { resolveMediaUrl } from '../services/api';
 import './RetroPreviewModal.css';
 
 export default function RetroPreviewModal({ isOpen, onClose, type = "project", data }) {
@@ -105,7 +106,7 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
                     </div>
                     <div className="preview-gallery-main">
                       <img
-                        src={currentImg?.url || currentImg?.media?.public_url}
+                        src={resolveMediaUrl(currentImg?.url || currentImg?.media?.public_url)}
                         alt="Preview"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
@@ -141,7 +142,7 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
                             className={`thumb-box ${i === safeImgIdx ? 'selected' : ''}`}
                             onClick={() => setActiveImgIdx(i)}
                           >
-                            <img src={img.url || img.media?.public_url} alt="" />
+                            <img src={resolveMediaUrl(img.url || img.media?.public_url)} alt="" />
                           </button>
                         ))}
                       </div>
@@ -318,7 +319,7 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
                       <span>TELEMETRY EVIDENCE [{safeImgIdx + 1} / {images.length}]</span>
                     </div>
                     <div className="preview-gallery-main">
-                      <img src={currentImg?.url || currentImg?.media?.public_url} alt="" />
+                      <img src={resolveMediaUrl(currentImg?.url || currentImg?.media?.public_url)} alt="" />
                     </div>
                   </div>
                 )}
@@ -362,7 +363,7 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
 
                 {data.media?.public_url && (
                   <div style={{ margin: '1rem 0', border: '2px solid #17191C', borderRadius: '6px', overflow: 'hidden' }}>
-                    <img src={data.media.public_url} alt="Certificate Document" style={{ width: '100%', maxHeight: '300px', objectFit: 'contain', background: '#000' }} />
+                    <img src={resolveMediaUrl(data.media.public_url)} alt="Certificate Document" style={{ width: '100%', maxHeight: '300px', objectFit: 'contain', background: '#000' }} />
                   </div>
                 )}
 
@@ -463,7 +464,7 @@ export default function RetroPreviewModal({ isOpen, onClose, type = "project", d
 
                 {data.media?.public_url && (
                   <div style={{ margin: '1rem 0', border: '2px solid #17191C', borderRadius: '6px', overflow: 'hidden' }}>
-                    <img src={data.media.public_url} alt="Diploma Document" style={{ width: '100%', maxHeight: '250px', objectFit: 'contain' }} />
+                    <img src={resolveMediaUrl(data.media.public_url)} alt="Diploma Document" style={{ width: '100%', maxHeight: '250px', objectFit: 'contain' }} />
                   </div>
                 )}
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { api } from '../services/api';
+import { api, resolveMediaUrl } from '../services/api';
 import ProjectAuthoringModal from '../components/ProjectAuthoringModal';
 import RetroPreviewModal from '../components/RetroPreviewModal';
 import './ProjectsManager.css';
@@ -239,7 +239,7 @@ export default function ProjectsManager() {
             <tbody>
               {filteredProjects.map((proj, idx) => {
                 const cover = proj.images?.find((img) => img.is_cover) || proj.images?.[0];
-                const thumbUrl = cover?.url || cover?.media?.public_url;
+                const thumbUrl = resolveMediaUrl(cover?.url || cover?.media?.public_url);
                 const projNum = String(idx + 1).padStart(2, '0');
 
                 return (
