@@ -10,7 +10,7 @@ from sqlalchemy import text
 
 from app.database import engine, Base, SessionLocal, run_auto_migrations
 from app.seed import seed_database
-from app.routers import auth, public, admin_projects, admin_achievements, admin_content, admin_media
+from app.routers import public
 
 # Configure logging
 logging.basicConfig(
@@ -35,16 +35,7 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
 
-    # 3. Security check on startup
-    env = os.environ.get("ENVIRONMENT", "development").lower()
-    admin_pass = os.environ.get("ADMIN_PASSWORD", "admin123")
-    jwt_secret = os.environ.get("JWT_SECRET", "")
 
-    if env == "production":
-        if admin_pass == "admin123":
-            logger.warning("[SECURITY ALERT] Running in PRODUCTION with default ADMIN_PASSWORD 'admin123'! Change immediately.")
-        if not jwt_secret or "dev" in jwt_secret.lower():
-            logger.warning("[SECURITY ALERT] Running in PRODUCTION with default or development JWT_SECRET! Set a secure 64-char key.")
 
     logger.info("Anand Sagar Engineering Archive Backend initialized successfully.")
     yield
@@ -104,11 +95,6 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # Include Routers
 app.include_router(public.router)
-app.include_router(auth.router)
-app.include_router(admin_projects.router)
-app.include_router(admin_achievements.router)
-app.include_router(admin_content.router)
-app.include_router(admin_media.router)
 
 # Health Checks with Database Ping
 @app.get("/health")

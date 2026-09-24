@@ -2,18 +2,16 @@
   "name": "anand-sagar-archive-workspace",
   "private": true,
   "version": "1.0.0",
-  "description": "Anand Sagar Engineering Archive — Public Portfolio, Admin CMS, and FastAPI Backend",
+  "description": "Anand Sagar Engineering Archive — Public Portfolio and FastAPI Backend",
   "scripts": {
     "dev:portfolio": "npm --prefix portfolio run dev",
-    "dev:admin": "npm --prefix admin run dev",
+    "dev": "npm run dev:portfolio",
     "dev:backend": "cd backend && .venv/bin/uvicorn main:app --reload --port 8000 --host 127.0.0.1",
     "build": "npm run build:portfolio && rm -rf dist && cp -r portfolio/dist ./dist",
-    "lint": "npm run lint:portfolio && npm run lint:admin",
+    "lint": "npm run lint:portfolio",
     "test": "npm run test:backend",
     "build:portfolio": "npm --prefix portfolio run build",
-    "build:admin": "npm --prefix admin run build",
     "lint:portfolio": "npm --prefix portfolio run lint",
-    "lint:admin": "npm --prefix admin run lint",
     "test:backend": "cd backend && PYTHONPATH=. .venv/bin/pytest tests/"
   }
 }

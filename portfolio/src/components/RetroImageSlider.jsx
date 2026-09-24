@@ -80,7 +80,7 @@ export default function RetroImageSlider({ images = [], title = "ARCHIVE IMAGERY
     if (ytMatch) {
       return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0`;
     }
-    const vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)/);
+    const vimeoMatch = url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)/);
     if (vimeoMatch) {
       return `https://player.vimeo.com/video/${vimeoMatch[3]}`;
     }

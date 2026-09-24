@@ -34,12 +34,9 @@ export default function ProjectCaseStudy({
       .map(item => item.project);
   }, [project, allProjects]);
 
-  if (!project) return null;
-
-  const num = String(projectNumber).padStart(2, '0');
-  const links = project.links || {};
-  const hasGithub = project.github || links.github;
-  const hasLive = project.live || project.demo || links.demo || links.live;
+  const links = project?.links || {};
+  const hasGithub = project?.github || links.github;
+  const hasLive = project?.live || project?.demo || links.demo || links.live;
   const hasDocs = links.documentation || links.docs;
   const hasPaper = links.paper || links.research_paper;
   const hasVideo = links.video;
@@ -48,6 +45,7 @@ export default function ProjectCaseStudy({
   const hasAnyLinks = hasGithub || hasLive || hasDocs || hasPaper || hasVideo || hasDataset || hasOther;
 
   const images = useMemo(() => {
+    if (!project) return [];
     const list = [...(project.images || [])];
     if (list.length === 0 && project.image) {
       list.push({ url: project.image, caption: project.title, is_cover: true });
@@ -62,6 +60,10 @@ export default function ProjectCaseStudy({
     }
     return list;
   }, [project, hasVideo]);
+
+  if (!project) return null;
+
+  const num = String(projectNumber).padStart(2, '0');
 
   const metrics = (project.metrics && Array.isArray(project.metrics)) ? project.metrics : [];
   const challenges = (project.challenges && Array.isArray(project.challenges)) ? project.challenges : [];

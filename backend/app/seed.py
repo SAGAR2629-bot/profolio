@@ -2,31 +2,14 @@ import os
 import json
 from sqlalchemy.orm import Session
 from .models.models import (
-    AdminUser, SiteContent, Profile, Project, Achievement,
+    SiteContent, Profile, Project, Achievement,
     Certificate, Education, Experience, SkillCategory
 )
-from .auth import hash_password, get_admin_credentials
 
 SEED_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "seed_data", "portfolio.json"))
 
 def seed_database(db: Session):
-    """Seeds the database from portfolio.json and default credentials if empty."""
-    # 1. Admin User
-    default_user, default_pass = get_admin_credentials()
-    admin = db.query(AdminUser).filter(AdminUser.username == default_user).first()
-    if not admin:
-        admin = AdminUser(
-            username=default_user,
-            hashed_password=hash_password(default_pass)
-        )
-        db.add(admin)
-        db.commit()
-        print(f"[SEED] Created default admin user: {default_user}")
-    elif os.environ.get("ADMIN_PASSWORD"):
-        admin.hashed_password = hash_password(default_pass)
-        db.commit()
-        print(f"[SEED] Synchronized admin password from environment for user: {default_user}")
-
+    """Seeds the database from portfolio.json if empty."""
     # Check if content already seeded
     if db.query(Project).count() > 0 or db.query(Profile).count() > 0:
         return
