@@ -93,35 +93,37 @@ export default function HomeTerminal() {
         <div className="terminal-screen__body">
           <div className="terminal-screen__hero">
             <div className="terminal-screen__badge">
-              <span>ROBOTICS & EMBODIED AI</span>
+              <span>{personalInfo.heroBadge || "ROBOTICS & EMBODIED AI"}</span>
             </div>
 
             <h1 className="terminal-screen__title">{personalInfo.name}</h1>
 
             <p className="terminal-screen__disciplines">
-              <span>AI/ML</span>
-              <span className="terminal-screen__sep">◆</span>
-              <span>ROBOTICS</span>
-              <span className="terminal-screen__sep">◆</span>
-              <span>COMPUTER VISION</span>
-              <span className="terminal-screen__sep">◆</span>
-              <span>REINFORCEMENT LEARNING</span>
+              {(personalInfo.heroDisciplines && personalInfo.heroDisciplines.length > 0
+                ? personalInfo.heroDisciplines
+                : ["AI/ML", "ROBOTICS", "COMPUTER VISION", "REINFORCEMENT LEARNING"]
+              ).map((discipline, idx, arr) => (
+                <span key={idx}>
+                  <span>{discipline}</span>
+                  {idx < arr.length - 1 && <span className="terminal-screen__sep">◆</span>}
+                </span>
+              ))}
             </p>
 
             <p className="terminal-screen__statement">
               "{personalInfo.heroSubtitle}"
             </p>
 
-            {/* Three Tactile Action Buttons matching Reference Image */}
+            {/* Tactile Action Buttons from CMS */}
             <div className="terminal-screen__cta-row">
               <Link to="/projects" className="retro-btn retro-btn--blue">
-                <span>[ VIEW PROJECTS ]</span>
+                <span>{personalInfo.ctaPrimary || "[ VIEW PROJECTS ]"}</span>
               </Link>
               <Link to="/about" className="retro-btn retro-btn--yellow">
-                <span>[ ABOUT ME ]</span>
+                <span>{personalInfo.ctaSecondary || "[ ABOUT ME ]"}</span>
               </Link>
               <Link to="/contact" className="retro-btn retro-btn--cyan">
-                <span>[ CONTACT ]</span>
+                <span>{personalInfo.ctaTertiary || "[ CONTACT ]"}</span>
               </Link>
             </div>
           </div>

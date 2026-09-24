@@ -58,11 +58,14 @@ export function PortfolioDataProvider({ children }) {
         const homeContent = apiData.home_content || {};
 
         const mergedPersonalInfo = {
-          name: profile.name || homeContent.hero_name || fallbackData.personalInfo.name,
+          name: homeContent.hero_name || profile.name || fallbackData.personalInfo.name,
           tagline: profile.title || fallbackData.personalInfo.tagline,
           heroSubtitle: homeContent.hero_subtitle || profile.short_intro || fallbackData.personalInfo.heroSubtitle,
           heroBadge: homeContent.hero_badge || "ROBOTICS & EMBODIED AI",
           heroDisciplines: homeContent.hero_disciplines || ["AI/ML", "ROBOTICS", "COMPUTER VISION", "REINFORCEMENT LEARNING"],
+          ctaPrimary: homeContent.cta_primary || "[ VIEW PROJECTS ]",
+          ctaSecondary: homeContent.cta_secondary || "[ ABOUT ME ]",
+          ctaTertiary: homeContent.cta_tertiary || "[ CONTACT ]",
           email: profile.social_links?.email || fallbackData.personalInfo.email,
           github: profile.social_links?.github || fallbackData.personalInfo.github,
           linkedin: profile.social_links?.linkedin || fallbackData.personalInfo.linkedin,
