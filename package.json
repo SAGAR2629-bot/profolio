@@ -7,7 +7,7 @@
     "dev:portfolio": "npm --prefix portfolio run dev",
     "dev:admin": "npm --prefix admin run dev",
     "dev:backend": "cd backend && .venv/bin/uvicorn main:app --reload --port 8000 --host 127.0.0.1",
-    "build": "npm run build:portfolio && npm run build:admin",
+    "build": "npm run build:portfolio && rm -rf dist && cp -r portfolio/dist ./dist",
     "lint": "npm run lint:portfolio && npm run lint:admin",
     "test": "npm run test:backend",
     "build:portfolio": "npm --prefix portfolio run build",
